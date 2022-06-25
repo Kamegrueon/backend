@@ -5,5 +5,6 @@ class CreateDailies < ActiveRecord::Migration[6.1]
       t.integer :date_progress, null: false
       t.timestamps
     end
+    add_index :dailies, [:game_id, :date_progress], unique: true
   end
 end
