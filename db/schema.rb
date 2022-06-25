@@ -10,14 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_20_003951) do
+ActiveRecord::Schema.define(version: 2022_06_24_231214) do
 
   create_table "dailies", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "game_id"
     t.integer "date_progress", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["game_id", "date_progress"], name: "index_dailies_on_game_id_and_date_progress", unique: true
     t.index ["game_id"], name: "index_dailies_on_game_id"
+  end
+
+  create_table "game_player_relations", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "game_id"
+    t.bigint "player_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["game_id", "player_id"], name: "index_game_player_relations_on_game_id_and_player_id", unique: true
+    t.index ["game_id"], name: "index_game_player_relations_on_game_id"
+    t.index ["player_id"], name: "index_game_player_relations_on_player_id"
   end
 
   create_table "games", charset: "utf8mb4", force: :cascade do |t|
@@ -26,5 +37,30 @@ ActiveRecord::Schema.define(version: 2022_06_20_003951) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "players", charset: "utf8mb4", force: :cascade do |t|
+    t.string "player_name", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["player_name"], name: "index_players_on_player_name", unique: true
+  end
+
+  create_table "votes", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "voter_id"
+    t.bigint "voted_id"
+    t.bigint "daily_id"
+    t.bigint "game_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["daily_id"], name: "index_votes_on_daily_id"
+    t.index ["game_id", "daily_id", "voter_id", "voted_id"], name: "index_votes_on_game_id_and_daily_id_and_voter_id_and_voted_id", unique: true
+    t.index ["game_id"], name: "index_votes_on_game_id"
+    t.index ["voted_id"], name: "index_votes_on_voted_id"
+    t.index ["voter_id"], name: "index_votes_on_voter_id"
+  end
+
   add_foreign_key "dailies", "games"
+  add_foreign_key "votes", "dailies"
+  add_foreign_key "votes", "games"
+  add_foreign_key "votes", "players", column: "voted_id"
+  add_foreign_key "votes", "players", column: "voter_id"
 end
