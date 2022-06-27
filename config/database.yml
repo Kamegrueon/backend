@@ -53,3 +53,4 @@ production:
   database: werewolf_analysis_api_production
   username: werewolf_analysis_api
   password: <%= ENV['WEREWOLF_ANALYSIS_API_DATABASE_PASSWORD'] %>
+  url: <%= ENV['CLEARDB_DATABASE_URL']&.sub(/\Amysql/, 'mysql2') %>
