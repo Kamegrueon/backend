@@ -1,6 +1,7 @@
 class Api::V1::PlayersController < ApplicationController
   def index
-    player_data = Player.where(game_id: params[:game_id])
+    game = Game.find(params[:game_id])
+    player_data = game.players
     render json: player_data
   end
 end
