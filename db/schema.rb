@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_06_24_231214) do
+ActiveRecord::Schema.define(version: 2022_07_02_065201) do
 
   create_table "dailies", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "game_id"
@@ -31,8 +31,19 @@ ActiveRecord::Schema.define(version: 2022_06_24_231214) do
     t.index ["player_id"], name: "index_game_player_relations_on_player_id"
   end
 
+  create_table "game_roles", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "game_id"
+    t.bigint "role_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["game_id"], name: "index_game_roles_on_game_id"
+    t.index ["role_id"], name: "index_game_roles_on_role_id"
+  end
+
   create_table "games", charset: "utf8mb4", force: :cascade do |t|
     t.string "game_name", null: false
+    t.boolean "is_win"
+    t.integer "date_progress"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
