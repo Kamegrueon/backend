@@ -6,9 +6,8 @@ Rails.application.routes.draw do
         resources :players
       end
       resources :dailies, defaults: {format: 'json'} do
-        resources :daily_reports, only: :create
-        get 'daily_report', to: 'daily_reports#show'
-        put 'daily_report', to: 'daily_reports#update'
+        resources :cause_of_deaths, only: [:index, :create]
+        patch 'cause_of_deaths', to: 'cause_of_deaths#update'
         resources :votes, only: [:create, :destroy]
       end
     end
