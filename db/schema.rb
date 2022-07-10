@@ -10,7 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_02_065201) do
+ActiveRecord::Schema.define(version: 2022_07_05_051556) do
+
+  create_table "cause_of_deaths", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "player_id"
+    t.bigint "daily_id"
+    t.string "cause_of_death", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["daily_id"], name: "index_cause_of_deaths_on_daily_id"
+    t.index ["player_id", "daily_id"], name: "index_cause_of_deaths_on_player_id_and_daily_id", unique: true
+    t.index ["player_id"], name: "index_cause_of_deaths_on_player_id"
+  end
 
   create_table "dailies", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "game_id"
@@ -59,19 +70,18 @@ ActiveRecord::Schema.define(version: 2022_07_02_065201) do
     t.bigint "voter_id"
     t.bigint "voted_id"
     t.bigint "daily_id"
-    t.bigint "game_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["daily_id", "voter_id", "voted_id"], name: "index_votes_on_daily_id_and_voter_id_and_voted_id", unique: true
     t.index ["daily_id"], name: "index_votes_on_daily_id"
-    t.index ["game_id", "daily_id", "voter_id", "voted_id"], name: "index_votes_on_game_id_and_daily_id_and_voter_id_and_voted_id", unique: true
-    t.index ["game_id"], name: "index_votes_on_game_id"
     t.index ["voted_id"], name: "index_votes_on_voted_id"
     t.index ["voter_id"], name: "index_votes_on_voter_id"
   end
 
+  add_foreign_key "cause_of_deaths", "dailies"
+  add_foreign_key "cause_of_deaths", "players"
   add_foreign_key "dailies", "games"
   add_foreign_key "votes", "dailies"
-  add_foreign_key "votes", "games"
   add_foreign_key "votes", "players", column: "voted_id"
   add_foreign_key "votes", "players", column: "voter_id"
 end

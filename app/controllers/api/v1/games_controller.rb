@@ -6,7 +6,7 @@ class Api::V1::GamesController < ApplicationController
   end
 
   def create
-    ActiveRecord::Base.transaction do
+    ApplicationRecord.transaction do
       game = GamePlayerRole.new(game_players_params)
       @game = game.save
     end
