@@ -14,8 +14,14 @@ class Api::V1::VotesController < ApplicationController
     end
   end
 
+  def destroy
+    vote = Vote.find(params[:id])
+    vote.destroy
+    render json: vote
+  end
+
   private
   def vote_params
-    params.require(:vote).permit(:voter_id, :voted_id).merge(daily_id: params[:daily_id])
+    params.require(:vote).permit(:daily_id, :voter_id, :voted_id)
   end
 end
