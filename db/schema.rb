@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_05_051556) do
+ActiveRecord::Schema.define(version: 2022_07_11_112232) do
 
   create_table "cause_of_deaths", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "player_id"
@@ -21,6 +21,16 @@ ActiveRecord::Schema.define(version: 2022_07_05_051556) do
     t.index ["daily_id"], name: "index_cause_of_deaths_on_daily_id"
     t.index ["player_id", "daily_id"], name: "index_cause_of_deaths_on_player_id_and_daily_id", unique: true
     t.index ["player_id"], name: "index_cause_of_deaths_on_player_id"
+  end
+
+  create_table "coming_outs", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "daily_id"
+    t.bigint "player_id"
+    t.string "roll_name", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["daily_id"], name: "index_coming_outs_on_daily_id"
+    t.index ["player_id"], name: "index_coming_outs_on_player_id"
   end
 
   create_table "dailies", charset: "utf8mb4", force: :cascade do |t|
@@ -42,13 +52,14 @@ ActiveRecord::Schema.define(version: 2022_07_05_051556) do
     t.index ["player_id"], name: "index_game_player_relations_on_player_id"
   end
 
-  create_table "game_roles", charset: "utf8mb4", force: :cascade do |t|
+  create_table "game_rolls", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "game_id"
-    t.bigint "role_id"
+    t.bigint "roll_id"
+    t.string "roll_name", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["game_id"], name: "index_game_roles_on_game_id"
-    t.index ["role_id"], name: "index_game_roles_on_role_id"
+    t.index ["game_id"], name: "index_game_rolls_on_game_id"
+    t.index ["roll_id"], name: "index_game_rolls_on_roll_id"
   end
 
   create_table "games", charset: "utf8mb4", force: :cascade do |t|

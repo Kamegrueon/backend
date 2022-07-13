@@ -7,7 +7,7 @@ class Api::V1::GamesController < ApplicationController
 
   def create
     ApplicationRecord.transaction do
-      game = GamePlayerRole.new(game_players_params)
+      game = GamePlayerRoll.new(game_players_params)
       @game = game.save
     end
       render json: @game

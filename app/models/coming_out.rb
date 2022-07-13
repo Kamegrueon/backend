@@ -1,0 +1,2 @@
+class ComingOut < ApplicationRecord
+end

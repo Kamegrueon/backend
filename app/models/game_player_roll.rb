@@ -1,7 +1,7 @@
-class GamePlayerRole
+class GamePlayerRoll
   include ActiveModel::Model
   include ActiveModel::Validations
-    attr_accessor :game_name, :players, :position_ids 
+    attr_accessor :game_name, :players, :position_ids, :roll_name
   
   validates :players, presence: true
 
@@ -13,7 +13,7 @@ class GamePlayerRole
       GamePlayerRelation.create!(game_id: game.id, player_id: player.id)
     end
     position_ids.each do |position_id|
-      GameRole.create!(game_id: game.id, role_id: position_id)
+      GameRoll.create!(game_id: game.id, roll_id: position_id, roll_name: Roll.find(position_id).roll_name)
     end
     Daily.create!(game_id: game.id, date_progress: 1)
     return game
