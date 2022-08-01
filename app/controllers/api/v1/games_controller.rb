@@ -1,13 +1,13 @@
 class Api::V1::GamesController < ApplicationController
   def index
     games = Game.all
-    roles = Role.all
+    roles = Roll.all
     render json: {games: games, roles: roles}
   end
 
   def create
     ApplicationRecord.transaction do
-      game = GamePlayerRole.new(game_players_params)
+      game = GamePlayerRoll.new(game_players_params)
       @game = game.save
     end
       render json: @game

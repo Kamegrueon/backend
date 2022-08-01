@@ -4,12 +4,14 @@ Rails.application.routes.draw do
       resources :games, defaults: {format: 'json'} do
         resources :dailies
         resources :players
+        resources :game_rolls, only: :index
       end
       resources :dailies, defaults: {format: 'json'} do
         resources :cause_of_deaths, only: [:index, :create]
         patch 'cause_of_deaths', to: 'cause_of_deaths#update'
       end
-      resources :votes, only: [:index, :create, :destroy]      
+      resources :votes, only: [:index, :create, :destroy]
+      resources :coming_outs, only: [:index, :create, :edit]
     end
   end
 end
