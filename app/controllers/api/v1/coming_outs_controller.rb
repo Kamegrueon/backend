@@ -10,8 +10,7 @@ class Api::V1::ComingOutsController < ApplicationController
   def create
     coming_out = ComingOut.new(coming_out_params)
     if coming_out.save
-      render json: { type: '/coming_outs'},
-                     status: 200
+      render json: coming_out
     else
       render json: coming_out.errors
     end
