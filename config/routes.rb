@@ -11,7 +11,9 @@ Rails.application.routes.draw do
         patch 'cause_of_deaths', to: 'cause_of_deaths#update'
       end
       resources :votes, only: [:index, :create, :destroy]
-      resources :coming_outs, only: [:index, :create, :edit]
+      resources :coming_outs, only: [:index, :create, :edit] do 
+        resources :ability_logs, only: [:create, :update, :destroy]
+      end
     end
   end
 end

@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_07_11_112232) do
+ActiveRecord::Schema.define(version: 2022_08_01_054953) do
+
+  create_table "ability_logs", charset: "utf8mb4", force: :cascade do |t|
+    t.bigint "coming_out_id"
+    t.bigint "target_player_id"
+    t.string "ability_result", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["coming_out_id"], name: "index_ability_logs_on_coming_out_id"
+    t.index ["target_player_id"], name: "index_ability_logs_on_target_player_id"
+  end
 
   create_table "cause_of_deaths", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "player_id"
@@ -89,6 +99,8 @@ ActiveRecord::Schema.define(version: 2022_07_11_112232) do
     t.index ["voter_id"], name: "index_votes_on_voter_id"
   end
 
+  add_foreign_key "ability_logs", "coming_outs"
+  add_foreign_key "ability_logs", "players", column: "target_player_id"
   add_foreign_key "cause_of_deaths", "dailies"
   add_foreign_key "cause_of_deaths", "players"
   add_foreign_key "dailies", "games"

@@ -17,7 +17,7 @@ class Api::V1::PlayersController < ApplicationController
           ) as cod
         ON cod.player_id = players.id AND cod.death_date < dailies.date_progress
       LEFT JOIN (
-          select coming_outs.player_id, coming_outs.roll_name, dailies.date_progress
+          select coming_outs.player_id, coming_outs.roll_name, dailies.date_progress, coming_outs.id as co_id
           from coming_outs 
           left join dailies 
             on coming_outs.daily_id = dailies.id 
@@ -26,7 +26,7 @@ class Api::V1::PlayersController < ApplicationController
         ON co.player_id = players.id AND co.date_progress <= dailies.date_progress
       |
     
-    player_select = 'players.id, player_name, dailies.date_progress, cause_of_death, death_date, roll_name'
+    player_select = 'players.id, player_name, dailies.date_progress, cause_of_death, death_date, co_id, roll_name'
 
     player_data = Player.joins(player_joins).select(player_select).where(games: { id: params[:game_id]}, dailies: {date_progress: params[:date_progress]})
     players = Player.assign_player_color(player_data)
