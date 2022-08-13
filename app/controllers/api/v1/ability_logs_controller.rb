@@ -11,6 +11,6 @@ class Api::V1::AbilityLogsController < ApplicationController
 
   private
   def ability_log_params
-    params.require(:ability_log).permit(:target_player_id, :ability_result).merge(coming_out_id: params[:coming_out_id])
+    params.require(:ability_log).permit(:target_player_id, :ability_result, :daily_id).merge(coming_out_id: params[:coming_out_id])
   end
 end

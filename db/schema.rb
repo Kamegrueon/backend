@@ -15,10 +15,12 @@ ActiveRecord::Schema.define(version: 2022_08_01_054953) do
   create_table "ability_logs", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "coming_out_id"
     t.bigint "target_player_id"
+    t.bigint "daily_id"
     t.string "ability_result", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["coming_out_id"], name: "index_ability_logs_on_coming_out_id"
+    t.index ["daily_id"], name: "index_ability_logs_on_daily_id"
     t.index ["target_player_id"], name: "index_ability_logs_on_target_player_id"
   end
 
@@ -100,6 +102,7 @@ ActiveRecord::Schema.define(version: 2022_08_01_054953) do
   end
 
   add_foreign_key "ability_logs", "coming_outs"
+  add_foreign_key "ability_logs", "dailies"
   add_foreign_key "ability_logs", "players", column: "target_player_id"
   add_foreign_key "cause_of_deaths", "dailies"
   add_foreign_key "cause_of_deaths", "players"

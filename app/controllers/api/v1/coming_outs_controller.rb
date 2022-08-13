@@ -1,8 +1,8 @@
 class Api::V1::ComingOutsController < ApplicationController
 
   def index
-    coming_outs = AbilityLog.joins(coming_out: :daily)
-      .select("ability_logs.id, coming_outs.player_id as coming_out_player_id, target_player_id, ability_result")
+    coming_outs = AbilityLog.joins(:coming_out, :daily)
+      .select("ability_logs.id, player_id as coming_out_player_id, target_player_id, ability_result, dailies.date_progress")
       .where("dailies.game_id = ? and dailies.date_progress <= ?",params[:game_id], params[:date_progress])
     render json: coming_outs
   end
