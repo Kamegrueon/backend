@@ -1,8 +1,8 @@
 class Api::V1::GamesController < ApplicationController
   def index
     games = Game.all
-    roles = Roll.all
-    render json: {games: games, roles: roles}
+    rolls = Roll.all
+    render json: {games: games, rolls: rolls}
   end
 
   def create
