@@ -1,12 +1,10 @@
 class Api::V1::CauseOfDeathsController < ApplicationController
   def index
-    executed = CauseOfDeath.select(:player_id).find_by(daily_id: params[:daily_id], cause_of_death: '処刑')
-    murdered = CauseOfDeath.select(:player_id).find_by(daily_id: params[:daily_id], cause_of_death: '殺害')
-    perished = CauseOfDeath.select(:player_id).find_by(daily_id: params[:daily_id], cause_of_death: '突然死')
+    res = CauseOfDeath.select(:player_id,:cause_of_death).joins(:daily).where(dailies: {date_progress: params[:date_progress], game_id: params[:game_id]})
     render json: {
-      executed_player_id: executed.nil? ? nil : executed[:player_id],
-      murdered_player_id: murdered.nil? ? nil : murdered[:player_id],
-      perished_player_id: perished.nil? ? nil : perished[:player_id],
+      executed_player_id: res.where(cause_of_death: '処刑').length == 0 ? nil : res.where(cause_of_death: '処刑').as_json(only: [:player_id]),
+      murdered_player_id: res.where(cause_of_death: '殺害').length == 0 ? nil : res.where(cause_of_death: '殺害').as_json(only: [:player_id]),
+      perished_player_id: res.where(cause_of_death: '突然死').length == 0 ? nil : res.where(cause_of_death: '突然死').as_json(only: [:player_id]),      
     }
   end
 
@@ -29,6 +27,7 @@ class Api::V1::CauseOfDeathsController < ApplicationController
   end
 
   def update
+    # issue 未来の日付で殺害されているのに過去に遡って殺害すると重複して表示されてしまう
     ApplicationRecord.transaction do
       executed = CauseOfDeath.find_by(daily_id: params[:daily_id], cause_of_death: '処刑')
       executed.update(player_id: cod_params[:executed_player_id], daily_id: params[:daily_id], cause_of_death: '処刑')      
