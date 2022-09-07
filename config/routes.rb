@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  mount_devise_token_auth_for 'User', at: 'auth'
   namespace 'api' do
     namespace 'v1' do
       resources :games, defaults: {format: 'json'} do
@@ -14,6 +15,14 @@ Rails.application.routes.draw do
       resources :votes, only: [:index, :create, :destroy]
       resources :coming_outs, only: [:index, :create, :edit] do 
         resources :ability_logs, only: [:create, :update, :destroy]
+      end
+      
+      mount_devise_token_auth_for 'User', at: 'auth', controllers: {
+        registrations: 'api/v1/auth/registrations'
+      }
+
+      namespace :auth do
+        resources :sessions, only: [:index]
       end
     end
   end
