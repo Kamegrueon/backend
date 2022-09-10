@@ -44,3 +44,5 @@ gem 'active_hash'
 
 gem 'devise'
 gem 'devise_token_auth'
+
+gem 'rename'
