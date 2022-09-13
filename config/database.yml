@@ -50,6 +50,6 @@ test:
 #
 production:
   <<: *default
-  database: backend_production
-  username: backend
+  database: us-cdbr-east-05.cleardb.net
+  username: b5c7b0449aa541
   password: <%= ENV['backend_DATABASE_PASSWORD'] %>
