@@ -1,6 +1,6 @@
 class Api::V1::GamesController < ApplicationController
   def index
-    games = Game.all
+    games = Game.where(user_id: params[:user_id])
     rolls = Roll.all
     render json: {games: games, rolls: rolls}
   end
@@ -24,6 +24,6 @@ class Api::V1::GamesController < ApplicationController
   private
 
   def game_players_params
-    params.require(:game).permit(:game_name, players: [], position_ids: [])
+    params.require(:game).permit(:game_name, :user_id, players: [], position_ids: [])
   end
 end
