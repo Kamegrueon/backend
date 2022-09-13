@@ -53,3 +53,4 @@ production:
   database: heroku_b9cfc2b25ce0975
   username: b5c7b0449aa541
   password: <%= ENV['backend_DATABASE_PASSWORD'] %>
+  url: <%= ENV['CLEARDB_DATABASE_URL']&.sub(/\Amysql/, 'mysql2') %>
