@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_09_05_000223) do
+ActiveRecord::Schema.define(version: 2022_09_13_083144) do
 
   create_table "ability_logs", charset: "utf8mb4", force: :cascade do |t|
     t.bigint "coming_out_id"
@@ -76,10 +76,10 @@ ActiveRecord::Schema.define(version: 2022_09_05_000223) do
 
   create_table "games", charset: "utf8mb4", force: :cascade do |t|
     t.string "game_name", null: false
-    t.boolean "is_win"
-    t.integer "date_progress"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_games_on_user_id"
   end
 
   create_table "players", charset: "utf8mb4", force: :cascade do |t|
@@ -132,6 +132,7 @@ ActiveRecord::Schema.define(version: 2022_09_05_000223) do
   add_foreign_key "cause_of_deaths", "dailies"
   add_foreign_key "cause_of_deaths", "players"
   add_foreign_key "dailies", "games"
+  add_foreign_key "games", "users"
   add_foreign_key "votes", "dailies"
   add_foreign_key "votes", "players", column: "voted_id"
   add_foreign_key "votes", "players", column: "voter_id"
